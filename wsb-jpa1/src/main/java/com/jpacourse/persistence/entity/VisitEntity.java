@@ -1,13 +1,7 @@
 package com.jpacourse.persistence.entity;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "VISIT")
@@ -21,6 +15,18 @@ public class VisitEntity {
 
 	@Column(nullable = false)
 	private LocalDateTime time;
+
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "doctor_id", nullable = false)
+	private DoctorEntity doctor;
+
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "patient_id", nullable = false)
+	private PatientEntity patient;
+
+	@OneToOne(cascade = CascadeType.ALL, optional = false)
+	@JoinColumn(name = "medical_treatment_id", referencedColumnName = "id", nullable = false)
+	private MedicalTreatmentEntity medicalTreatment;
 
 	public Long getId() {
 		return id;

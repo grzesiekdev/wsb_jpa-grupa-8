@@ -2,14 +2,8 @@ package com.jpacourse.persistence.entity;
 
 import com.jpacourse.persistence.enums.Specialization;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "DOCTOR")
@@ -33,9 +27,16 @@ public class DoctorEntity {
 	@Column(nullable = false)
 	private String doctorNumber;
 
-	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private Specialization specialization;
+
+	@OneToOne(cascade = CascadeType.ALL, optional = false)
+	@JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
+	private AddressEntity address;
+
+	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<VisitEntity> visits;
 
 	public Long getId() {
 		return id;
