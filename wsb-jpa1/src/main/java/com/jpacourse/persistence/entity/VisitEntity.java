@@ -2,6 +2,8 @@ package com.jpacourse.persistence.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
+
 
 @Entity
 @Table(name = "VISIT")
@@ -13,20 +15,19 @@ public class VisitEntity {
 
 	private String description;
 
-	@Column(nullable = false)
-	private LocalDateTime time;
+	@Column(name = "visit_date")
+	private LocalDateTime visitDate;
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "doctor_id", nullable = false)
 	private DoctorEntity doctor;
 
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "patient_id", nullable = false)
 	private PatientEntity patient;
 
-	@OneToOne(cascade = CascadeType.ALL, optional = false)
-	@JoinColumn(name = "medical_treatment_id", referencedColumnName = "id", nullable = false)
-	private MedicalTreatmentEntity medicalTreatment;
+	@OneToMany(mappedBy = "visit", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<MedicalTreatmentEntity> treatments;
 
 	public Long getId() {
 		return id;
@@ -36,20 +37,36 @@ public class VisitEntity {
 		this.id = id;
 	}
 
-	public String getDescription() {
-		return description;
+	public LocalDateTime getVisitDate() {
+		return visitDate;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setVisitDate(LocalDateTime visitDate) {
+		this.visitDate = visitDate;
 	}
 
-	public LocalDateTime getTime() {
-		return time;
+	public PatientEntity getPatient() {
+		return patient;
 	}
 
-	public void setTime(LocalDateTime time) {
-		this.time = time;
+	public void setPatient(PatientEntity patient) {
+		this.patient = patient;
+	}
+
+	public DoctorEntity getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(DoctorEntity doctor) {
+		this.doctor = doctor;
+	}
+
+	public List<MedicalTreatmentEntity> getTreatments() {
+		return this.treatments;
+	}
+
+	public void setTreatments(List<MedicalTreatmentEntity> treatments) {
+		this.treatments = treatments;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.jpacourse.persistence.entity;
 
+import com.jpacourse.dto.AddressTO;
 import com.jpacourse.persistence.enums.Specialization;
 
 import javax.persistence.*;
@@ -35,7 +36,7 @@ public class DoctorEntity {
 	@JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
 	private AddressEntity address;
 
-	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<VisitEntity> visits;
 
 	public Long getId() {
@@ -94,4 +95,19 @@ public class DoctorEntity {
 		this.specialization = specialization;
 	}
 
+	public AddressEntity getAddress() {
+		return address;
+	}
+
+	public void setAddress(AddressEntity address) {
+		this.address = address;
+	}
+
+	public List<VisitEntity> getVisits() {
+		return visits;
+	}
+
+	public void setVisits(List<VisitEntity> visits) {
+		this.visits = visits;
+	}
 }

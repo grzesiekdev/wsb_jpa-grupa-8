@@ -1,5 +1,8 @@
 package com.jpacourse.persistence.entity;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -33,8 +36,10 @@ public class PatientEntity {
 	@JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
 	private AddressEntity address;
 
-	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<VisitEntity> visits;
+
+	private Integer shoeSize;
 
 	public Long getId() {
 		return id;
@@ -92,4 +97,27 @@ public class PatientEntity {
 		this.dateOfBirth = dateOfBirth;
 	}
 
+	public void setShoeSize(Integer shoeSize) {
+		this.shoeSize = shoeSize;
+	}
+
+	public Integer getShoeSize() {
+		return shoeSize;
+	}
+
+	public List<VisitEntity> getVisits() {
+		return visits;
+	}
+
+	public void setVisits(List<VisitEntity> visits) {
+		this.visits = visits;
+	}
+
+	public AddressEntity getAddress() {
+		return address;
+	}
+
+	public void setAddress(AddressEntity address) {
+		this.address = address;
+	}
 }
