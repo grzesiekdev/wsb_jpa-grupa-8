@@ -1,16 +1,20 @@
 package com.jpacourse.persistence.dao.impl;
 
+import com.jpacourse.persistence.dao.PatientDao;
 import com.jpacourse.persistence.dao.PatientRepository;
 import com.jpacourse.persistence.entity.DoctorEntity;
 import com.jpacourse.persistence.entity.PatientEntity;
 import com.jpacourse.persistence.entity.VisitEntity;
 import com.jpacourse.rest.exception.EntityNotFoundException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
-public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements PatientRepository {
+@Transactional
+public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements PatientDao {
     public PatientDaoImpl() {
         super(PatientEntity.class);
     }
@@ -40,5 +44,31 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
 
         // Merge the patient to persist the changes
         entityManager.merge(patient);
+    }
+
+    public List<PatientEntity> findByLastName(String lastName) {
+        return entityManager.createQuery(
+                        "SELECT p FROM PatientEntity p WHERE p.lastName = :lastName", PatientEntity.class)
+                .setParameter("lastName", lastName)
+                .getResultList();
+    }
+
+    @Override
+    public List<PatientEntity> findPatientsWithMoreThanXVisits(long visitCount) {
+        return entityManager.createQuery(
+                        "SELECT p FROM PatientEntity p " +
+                                "JOIN p.visits v " +
+                                "GROUP BY p " +
+                                "HAVING COUNT(v) > :visitCount", PatientEntity.class)
+                .setParameter("visitCount", visitCount)
+                .getResultList();
+    }
+
+    @Override
+    public List<PatientEntity> findPatientsWithShoeSizeLowerThan(int shoeSize) {
+        return entityManager.createQuery(
+                        "SELECT p FROM PatientEntity p WHERE p.shoeSize < :shoeSize", PatientEntity.class)
+                .setParameter("shoeSize", shoeSize)
+                .getResultList();
     }
 }

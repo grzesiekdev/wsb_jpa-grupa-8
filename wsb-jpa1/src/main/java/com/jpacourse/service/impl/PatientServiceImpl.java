@@ -3,8 +3,8 @@ package com.jpacourse.service.impl;
 import com.jpacourse.dto.PatientTO;
 import com.jpacourse.dto.VisitTO;
 import com.jpacourse.mapper.PatientMapper;
-import com.jpacourse.persistence.dao.PatientRepository;
-import com.jpacourse.persistence.dao.VisitRepository;
+import com.jpacourse.persistence.dao.PatientDao;
+import com.jpacourse.persistence.dao.VisitDao;
 import com.jpacourse.persistence.entity.PatientEntity;
 import com.jpacourse.persistence.entity.VisitEntity;
 import com.jpacourse.rest.exception.EntityNotFoundException;
@@ -20,10 +20,10 @@ import java.util.stream.Collectors;
 public class PatientServiceImpl implements PatientService {
 
     @Autowired
-    private PatientRepository patientRepository;
+    private PatientDao patientRepository;
 
     @Autowired
-    private VisitRepository visitRepository;
+    private VisitDao visitRepository;
 
     @Override
     public PatientTO getPatientById(Long id) {

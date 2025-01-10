@@ -22,6 +22,9 @@ public class MedicalTreatmentEntity {
 	@JoinColumn(name = "visit_id", nullable = false)
 	private VisitEntity visit;
 
+	@Version
+	private int version;
+
 	public Long getId() {
 		return id;
 	}

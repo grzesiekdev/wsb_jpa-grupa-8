@@ -1,8 +1,6 @@
 package com.jpacourse.persistence.dao.impl;
 
-import com.jpacourse.persistence.dao.PatientRepository;
-import com.jpacourse.persistence.dao.VisitRepository;
-import com.jpacourse.persistence.entity.PatientEntity;
+import com.jpacourse.persistence.dao.VisitDao;
 import com.jpacourse.persistence.entity.VisitEntity;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +8,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-public class VisitDaoImpl extends AbstractDao<VisitEntity, Long> implements VisitRepository {
+public class VisitDaoImpl extends AbstractDao<VisitEntity, Long> implements VisitDao {
     public VisitDaoImpl()  {
         super(VisitEntity.class);
     }
